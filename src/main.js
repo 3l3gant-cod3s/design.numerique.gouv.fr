@@ -2,7 +2,8 @@
 // The Client API can be used here. Learn more: gridsome.org/docs/client-api
 
 import DefaultLayout from '~/layouts/Default.vue'
-import '~/assets/css/dsfr.min.css'
+import ExerciseLayout from '~/layouts/Exercise.vue'
+
 import '~/assets/scss/styles.scss'
 
 import { FontAwesomeIcon } from '@fortawesome/vue-fontawesome'
@@ -134,8 +135,16 @@ library.add(
   faProjectDiagram
   )
   export default function (Vue, { router, head, isClient }) {
-    // Set default layout as a global componentÒ
+    // Set default layout as a global component
     Vue.component('Layout', DefaultLayout)
+    Vue.component('Exercise', ExerciseLayout)
+    head.link.push({
+      rel: 'stylesheet',
+      href: '/assets/css/utility.min.css'
+    },{
+      rel: 'stylesheet',
+      href: '/assets/css/dsfr.min.css'
+    })
     Vue.component('font-awesome', FontAwesomeIcon)
     head.htmlAttrs = { lang: 'fr', 'data-fr-scheme': 'system' }
   }

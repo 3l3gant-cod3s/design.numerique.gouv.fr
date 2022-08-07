@@ -16,7 +16,7 @@
         <h1 class="dg-cover__title"><img class="dg-picto fr-mr-2w" svg-inline src="../assets/images/article-picto.svg" aria-hidden="true">Articles</h1>
         <ul class="fr-tags-group fr-mt-4w">
           <li v-for="tag in $page.allTag.edges" :key="tag.node.id">
-            <g-link class="fr-tag fr-tag--pink-macaron" target="_self" :to="tag.node.path">{{ tag.node.id.charAt(0).toUpperCase() + tag.node.id.slice(1) }}</g-link>
+            <g-link class="fr-tag" target="_self" :to="tag.node.path">{{ tag.node.id.charAt(0).toUpperCase() + tag.node.id.slice(1) }}</g-link>
           </li>
         </ul>
       </div>
@@ -27,14 +27,20 @@
         <div class="fr-col-sm-6" v-for="{ node } in $page.allArticle.edges" :key="node.id">
           <article class="fr-card fr-enlarge-link" >
             <div class="fr-card__body">
+              <div class="fr-card__content">
                 <h2 class="fr-card__title">
                   <g-link :to="node.path" class="fr-card__link">{{ node.title }}</g-link>
                 </h2>
-                <p class="fr-card__desc">{{ node.description }}.</p>
-                <p class="fr-card__detail">{{ node.publishedDate }}</p>
+                <p class="fr-card__desc">{{ node.description }}</p>
+                <div class="fr-card__start">
+                  <p class="fr-card__detail">{{ node.publishedDate }}</p>
+                </div>
+              </div>
             </div>
-            <div class="fr-card__img">
-                <g-image :src="node.illustration" class="fr-responsive-img" alt=""/>
+            <div class="fr-card__header">
+              <div>
+                  <img :src="node.illustration.src" class="fr-responsive-img" alt=""/>
+              </div>
             </div>
           </article>
         </div>
@@ -53,7 +59,7 @@
         	id
           title
           publishedDate (format: "D MMMM YYYY", locale : "fr")
-          illustration (width: 400, height: 156, quality: 50)
+          illustration (width: 800, height: 312, quality: 50)
           description
           path
         }

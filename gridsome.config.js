@@ -44,13 +44,6 @@ module.exports = {
     {
       use: '@gridsome/source-filesystem',
       options: {
-        typeName: 'Job',
-        path: './content/jobs/*.md',
-      }
-    },
-    {
-      use: '@gridsome/source-filesystem',
-      options: {
         typeName: 'Mission',
         path: './content/commandoux/**/*.md',
         refs: {
@@ -120,6 +113,13 @@ module.exports = {
       }
     },
     {
+      use: '@gridsome/source-filesystem',
+      options: {
+        typeName: 'PidilaCriterion',
+        path: './content/pidila/*.md',
+      }
+    },
+    {
       use: "gridsome-plugin-i18n",
       options: {
         locales: [
@@ -174,6 +174,13 @@ module.exports = {
             {
                 name: 'Formations', // required
                 typeName: 'Formation', // required
+                links: [ // optional
+                    {
+                        fieldName: 'Cours',
+                        typeName: 'Cours',
+                        linkToFirst: false // optional
+                    },
+                ]
             },
             {
                 name: 'Intervenants', // required
@@ -187,10 +194,33 @@ module.exports = {
         tableName: 'Cours', // required
       },
     },
+    {
+      use: '@gridsome/source-airtable',
+      options: {
+        apiKey: process.env.GRIDSOME_AIRTABLE_API_KEY, // required
+        base: process.env.GRIDSOME_AIRTABLE_CANDIDATE_BASE, // required
+        tables: [
+            {
+                name: 'Postes', // required
+                typeName: 'Poste', // required
+            },
+        ],
+        tableName: 'Postes', // required
+      },
+    },
+    {
+      use: 'gridsome-plugin-sentry',
+      options: {
+        dsn: 'https://7e6b7f0da53c4796ace432e55a32da06@o1156251.ingest.sentry.io/6237416',
+        attachProps: true, // defaults to true
+        logErrors: true // defaults to false
+      }
+    },
   ],
   transformers: {
     remark: {
       autolinkHeadings: false,
+      slug: false,
       plugins: [
         'remark-attr',
         [
@@ -217,11 +247,12 @@ module.exports = {
   },
   templates: {
     People: '/equipe/:id',
-    Job: '/recrutement/:slug',
     Mission: '/commando-ux/:slug',
     Article: '/articles/:slug',
     Role: '/accessibilite-numerique/roles-cles/:slug',
     Tag: '/articles/tag/:id',
+    Formation: '/formations/:Slug',
+    // Poste: '/recrutement/:Slug',
     // Cours: '/formations/cours/:id', -> géré manuellement dans gridsome.server.js
   },
   prefetch: {
